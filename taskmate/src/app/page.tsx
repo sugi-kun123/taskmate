@@ -1,38 +1,45 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function Home() {
-  const [task, setTask] = useState<string>("")
-  const [taskList, setTaskList] = useState<string[]>([])
+  const router = useRouter()
+  const [tasks, setTasks] = useState<string[]>([])
 
-  const handleAddTask = () => {
-    if (task.trim() === "") return
-    setTaskList([...taskList, task])
-    setTask("")
-  }
+  useEffect(() => {
+    const storedTasks = JSON.parse(localStorage.getItem("tasks") || "[]")
+    setTasks(storedTasks)
+  }, [])
+
+  const goToRegister = () => {
+    router.push("/register")
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)] bg-gray-300 text-gray-900">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <h1 className="font-bold">タスク管理ツール</h1>
-        <input
-          type="text"
-          value={task}
-          onChange={(e) => setTask(e.target.value)}
-          placeholder="タスクを入力"
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        />
-        <button
-          onClick={handleAddTask}
-          className="bg-gray-700 text-gray-300 font-bold py-2 px-4 hover:bg-blue-700 rounded"
-        >add</button>
+    <div className="p-4 bg-gray-200 text-gray-600">
+      <div className="container mx-auto">
+        <h1 className="text-2xl mb-4">タスク一覧</h1>
         <ul>
-          {taskList.map((t, i) => (
-            <li key={i}>{t}</li>
+          {tasks.map((task, index) => (
+            <li key={index} className="mb-2">
+              <Link href={`/detail?id=${index}`}>
+                <div className="shadow-md p-2 rounded cursor-pointer hover:bg-gray-100">
+                  {task}
+                </div>
+              </Link>
+            </li>
           ))}
         </ul>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center"></footer>
+        <button
+          className="bg-green-500 text-white p-2 rounded"
+          onClick={goToRegister}
+        >
+          タスクを登録する
+        </button>
+
+      </div>
     </div>
   );
 }
