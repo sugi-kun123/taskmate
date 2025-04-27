@@ -18,28 +18,25 @@ export default function Home() {
   };
 
   return (
-    <div className="p-4 bg-gray-200 text-gray-600">
-      <div className="container mx-auto">
-        <h1 className="text-2xl mb-4">タスク一覧</h1>
-        <ul>
-          {tasks.map((task, index) => (
-            <li key={index} className="mb-2">
-              <Link href={`/detail?id=${index}`}>
-                <div className="shadow-md p-2 rounded cursor-pointer hover:bg-gray-100">
-                  {task}
-                </div>
-              </Link>
-            </li>
-          ))}
-        </ul>
-        <button
-          className="bg-green-500 text-white p-2 rounded"
-          onClick={goToRegister}
-        >
-          タスクを登録する
-        </button>
-
-      </div>
+    <div className="p-4 relative">
+      <h1 className="text-xl font-bold mb-4">タスク一覧</h1>
+      <ul className="">
+        {tasks.map((task, index) => (
+          <li key={index} className="mb-2">
+            <Link href={`/detail?id=${index}`}>
+              <div className="shadow-md p-2 rounded cursor-pointer hover:opacity-60 transition-opacity duration-200">
+                {task}
+              </div>
+            </Link>
+          </li>
+        ))}
+      </ul>
+      <button
+        className="text-6xl bg-green-500 text-white px-3 rounded-full absolute right-1 top-1 hover:opacity-50 transition-opacity duration-200 z-50"
+        onClick={goToRegister}
+      >
+        +
+      </button>
     </div>
   );
 }

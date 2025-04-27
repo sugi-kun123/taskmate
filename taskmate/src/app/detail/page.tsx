@@ -31,7 +31,7 @@ export default function Detail() {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl mb-4">タスク詳細ページ</h1>
+      <h1 className="text-xl font-bold mb-4">タスク詳細ページ</h1>
       {task ? (
         <p>このページはタスクID: id: {id} , task: {task}の詳細を見るためのページです。</p>
       ) : (
