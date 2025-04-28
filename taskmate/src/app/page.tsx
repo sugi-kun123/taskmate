@@ -13,9 +13,20 @@ export default function Home() {
     setTasks(storedTasks)
   }, [])
 
+  const saveTasks = (taskList: string[]) => {
+    localStorage.setItem("tasks", JSON.stringify(taskList))
+  }
+
+  const handleDelete = (index: number) => {
+    const newList = [...tasks]
+    newList.splice(index, 1)
+    setTasks(newList)
+    saveTasks(newList)
+  }
+
   const goToRegister = () => {
     router.push("/register")
-  };
+  }
 
   return (
     <div className="p-4 relative">
@@ -28,6 +39,12 @@ export default function Home() {
                 {task}
               </div>
             </Link>
+            <button
+              onClick={() => handleDelete(index)}
+              className="bg-red-500 text-white p-1 rounded ml-2"
+            >
+              削除
+            </button>
           </li>
         ))}
       </ul>
