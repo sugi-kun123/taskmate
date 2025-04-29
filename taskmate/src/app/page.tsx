@@ -29,8 +29,8 @@ export default function Home() {
   }
 
   return (
-    <div className="p-4 relative">
-      <h1 className="text-xl font-bold mb-4">タスク一覧</h1>
+    <div className="p-4">
+      <h1 className="text-xl font-bold mb-8">タスク一覧</h1>
       <ul className="">
         {tasks.map((task, index) => (
           <li key={index} className="mb-2">
@@ -49,10 +49,10 @@ export default function Home() {
         ))}
       </ul>
       <button
-        className="text-6xl bg-green-500 text-white px-3 rounded-full absolute right-1 top-1 hover:opacity-50 transition-opacity duration-200 z-50"
+        className="text-2xl shadow-md font-bold bg-green-500 text-white px-4 py-2 rounded fixed right-2 bottom-2"
         onClick={goToRegister}
       >
-        +
+        タスクを追加する
       </button>
     </div>
   );
