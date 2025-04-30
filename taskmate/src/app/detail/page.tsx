@@ -1,39 +1,33 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation"
+import { useState, useEffect } from "react"
+import { Task } from "@/app/types/type"
 
 export default function Detail() {
-  const searchParams = useSearchParams();
-  const id = searchParams.get("id");
-  const taskIndex = parseInt(id, 10)
-  const [task, setTask] = useState<string | null>(null)
+  const searchParams = useSearchParams()
+  const id = searchParams.get("id")
+  const taskIndex = parseInt(id ?? "", 10)
+  const [task, setTask] = useState<Task | null>(null)
 
   useEffect(() => {
-    if (!id) return
+    if (isNaN(taskIndex)) return
     const storedTasks = JSON.parse(localStorage.getItem("tasks") || "[]")
-    // const foundTask = storedTasks.find((t: { id: string, task: string }) => t.id === id)
-
-    let foundTask;
-
-    if (Array.isArray(storedTasks)) {
-      if (storedTasks.length > 0 && typeof storedTasks[0] === "string") {
-        foundTask = storedTasks[taskIndex];
-      } else if (storedTasks.length > 0 && typeof storedTasks[0] === "object") {
-        foundTask = storedTasks.find((t: { id: string, task: string }) => t.id === id)?.task;
-      }
+    if (Array.isArray(storedTasks) && storedTasks[taskIndex]) {
+      setTask(storedTasks[taskIndex])
     }
-
-    if (foundTask) {
-      setTask(foundTask)
-    }
-  }, [id])
+  }, [taskIndex])
 
   return (
     <div className="p-4">
       <h1 className="text-xl font-bold mb-4">タスク詳細ページ</h1>
       {task ? (
-        <p>このページはタスクID: id: {id} , task: {task}の詳細を見るためのページです。</p>
+        <div className="space-y-2">
+          <p><strong>タスク内容:</strong> {task.task}</p>
+          <p><strong>ジャンル:</strong> {task.genre}</p>
+          <p><strong>日時:</strong> {task.date}</p>
+          <p><strong>場所:</strong> {task.location}</p>
+        </div>
       ) : (
         <p className="text-red-500">タスクが見つかりません</p>
       )}
